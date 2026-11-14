@@ -6,11 +6,12 @@
 # Release, not into the repository), and the whole leaves.glb from before its split.
 build/
 
-# Kept private: the working notes, the ComfyUI workflows and
-# the work sheets of screenshots. Some comments in the code refer to them.
+# Kept private: the working notes, the ComfyUI workflows, the work sheets of screenshots
+# and personal how-to notes. Some comments in the code refer to the first three.
 HANDOFF.md
 comfyui_workflows/
 screenshots/
+HOWTO/
 
 # macOS, Python, Claude Code's local settings
 .DS_Store
