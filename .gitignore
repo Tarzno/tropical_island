@@ -1,0 +1,25 @@
+# Godot's cache of imported assets and compiled shaders (364 MB). Godot makes it again
+# when the project is first opened; the *.import files beside the assets are kept.
+.godot/
+
+# What is built from the project: the app, the disk image (it goes into a GitHub
+# Release, not into the repository), and the whole leaves.glb from before its split.
+build/
+
+# Kept private: the working notes, the ComfyUI workflows and
+# the work sheets of screenshots. Some comments in the code refer to them.
+HANDOFF.md
+comfyui_workflows/
+screenshots/
+
+# macOS, Python, Claude Code's local settings
+.DS_Store
+.claude/
+*.pyc
+__pycache__/
+
+# The manual's Python environment and the capture scripts' output
+manual/venv/
+manual/capture/shots/
+manual/capture/*.json
+manual/capture/*.log

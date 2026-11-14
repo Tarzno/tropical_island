@@ -1,0 +1,94 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Tropical Island"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7", "Forward Plus")
+config/icon="res://icon.png"
+
+[autoload]
+
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
+
+[physics]
+
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
+lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+lights_and_shadows/positional_shadow/soft_shadow_filter_quality=3
+textures/default_filters/anisotropic_filtering_level=4
+environment/ssao/quality=3
+anti_aliasing/quality/msaa_3d=2
+environment/volumetric_fog/volume_size=128
+environment/volumetric_fog/volume_depth=96
+anti_aliasing/quality/screen_space_aa=2
+environment/screen_space_reflection/roughness_quality=2
+
+[shader_globals]
+
+heightmap={
+"type": "sampler2D",
+"value": "res://assets/textures/heightmap.exr"
+}
+wind_strength={
+"type": "float",
+"value": 1.0
+}
+world_time={
+"type": "float",
+"value": 0.0
+}
+swash_period={
+"type": "float",
+"value": 9.0
+}
+sea_sun={
+"type": "float",
+"value": 1.0
+}
+sun_slope_x={
+"type": "float",
+"value": -0.64
+}
+sun_slope_z={
+"type": "float",
+"value": -0.45
+}
+rain={
+"type": "float",
+"value": 0.0
+}
+rain_wet={
+"type": "float",
+"value": 0.0
+}
+sea_level={
+"type": "float",
+"value": 0.0
+}
+tide_wet={
+"type": "float",
+"value": 0.0
+}
