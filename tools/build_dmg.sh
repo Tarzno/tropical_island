@@ -34,6 +34,10 @@ eval "$($PY dmg/make_background.py --shell)"
 
 # what the image holds
 rm -rf $D/stage $D/rw.dmg
+# The writable image lies under /tmp: Finder's note of where the picture behind the icons
+# is keeps the path of the image it was made in, and that note goes out with the release
+# (made in build/dmg, the image held the home folder's path: found 2026-11-21).
+RW=$(mktemp -d /tmp/tropical-island-dmg.XXXXXX)/rw.dmg
 mkdir -p $D/stage/.background
 ditto "$APP" "$D/stage/Tropical Island.app"
 cp "$PDF" $D/stage/
@@ -41,8 +45,8 @@ ln -s /Applications $D/stage/Applications
 tiffutil -cathidpicheck $D/background.png $D/background@2x.png -out $D/stage/.background/background.tiff
 
 # a writable image, mounted, for Finder to arrange
-hdiutil create -quiet -srcfolder $D/stage -volname "$VOL" -fs HFS+ -format UDRW -ov $D/rw.dmg 2>/dev/null
-hdiutil attach -quiet -readwrite -noverify -noautoopen $D/rw.dmg 2>/dev/null
+hdiutil create -quiet -srcfolder $D/stage -volname "$VOL" -fs HFS+ -format UDRW -ov "$RW" 2>/dev/null
+hdiutil attach -quiet -readwrite -noverify -noautoopen "$RW" 2>/dev/null
 SetFile -a E "/Volumes/$VOL/Tropical Island - Manual.pdf"  # ".pdf" hidden where Finder hides extensions
 # (the window's size is set last, and again after reopening: set before the toolbar is hidden
 # it did not stick on 2026-11-12)
@@ -102,7 +106,7 @@ hdiutil detach -quiet "/Volumes/$VOL" 2>/dev/null
 # So the layout is written anew from dmg/make_background.py's LAYOUT, with the volume mounted
 # where Finder does not look (dmg/fix_layout.py says what is kept of Finder's file).
 mkdir -p $D/mnt
-hdiutil attach -quiet -readwrite -noverify -noautoopen -nobrowse -mountpoint $D/mnt $D/rw.dmg 2>/dev/null
+hdiutil attach -quiet -readwrite -noverify -noautoopen -nobrowse -mountpoint $D/mnt "$RW" 2>/dev/null
 $PY dmg/fix_layout.py $D/mnt
 rm -rf $D/mnt/.fseventsd
 sync
@@ -110,8 +114,8 @@ hdiutil detach -quiet $D/mnt 2>/dev/null
 
 # the release: compressed, read-only
 rm -f "$OUT"
-hdiutil convert -quiet $D/rw.dmg -format ULMO -o "$OUT" 2>/dev/null
+hdiutil convert -quiet "$RW" -format ULMO -o "$OUT" 2>/dev/null
 hdiutil verify -quiet "$OUT" 2>/dev/null && echo "image verified"
-rm -rf $D/stage $D/rw.dmg
+rm -rf $D/stage "${RW:h}"
 du -h "$OUT"
 shasum -a 256 "$OUT"
